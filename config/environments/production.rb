@@ -43,6 +43,10 @@ OpenProject::Application.configure do
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets = false
 
+  [OpenProject::Configuration['rails_relative_url_root']].compact.each do |root|
+    config.assets.prefix = root
+  end
+
   # Compress JavaScripts and CSS
   config.assets.compress = true
 
