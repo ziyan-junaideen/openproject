@@ -30,12 +30,13 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3113` [API] Read access on work package workflows for API v2
+* `#3701` Filter custom fields of work packages in timeline reports
 * `#3732` Summary for work package responsibility
 * `#3733` Responsible widget for my page
 * `#4024` [Accessibility] Add proper page titles for sub pages
-* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4090` 'Session Expires' setting breaks API
 * `#4101` Headings: Fix typos in german translation
+* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4163` Extend authorization-API to return current user id
 * News subject contained in URL
 * Removes mocha mocking framework.
@@ -62,15 +63,14 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3808` Assignee cannot be set to "none" via bulk edit
 * `#3843` Prettier translations for member errors
 * `#3844` Fixed Work Package status translation
-* `#3865` Detailed filters on dates
 * `#3854` Move function and Query filters allows to select groups as responsible
+* `#3865` Detailed filters on dates
 * `#3974` [Timelines] Typo at creating timelines
 * `#4023` [Accessibility] Keep keyboard focus within modal while it's open
 * Add Gruntfile for easier JavaScript testing.
 
 ## 3.0.0pre43
 
-* `#2502` New Layout for overview / my page
 * `#2153` [Accessibility] Required fields MUST be displayed as required - group new
 * `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
 * `#2162` [Accessibility] Required fields MUST be displayed as required - new project_type
@@ -80,8 +80,9 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2250` [Accessibility] activity icon labels
 * `#2260` [Accessibility] no-existent alt-text for collapse/expand functionality in grouped work-package list
 * `#2263` [Accessibility] Correct markup for tables
-* `#2734` [API] Access-Key not supported for all controllers
 * `#2366` [Timelines] Add support for user deletion to timelines
+* `#2502` New Layout for overview / my page
+* `#2734` [API] Access-Key not supported for all controllers
 * `#3065` Fixed internal error when selecting costs-columns and displaying sums in work package list
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
