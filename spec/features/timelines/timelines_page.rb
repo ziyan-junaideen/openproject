@@ -30,13 +30,13 @@ class TimelinesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
 
-  def initialize(project)
+  def initialize(project=nil)
     raise ArgumentError, 'Project must not be nil!' if project.nil?
 
     @project = project
   end
 
   def visit_new
-    visit new_project_timeline(@project)
+    visit new_project_timeline_path(@project)
   end
 end

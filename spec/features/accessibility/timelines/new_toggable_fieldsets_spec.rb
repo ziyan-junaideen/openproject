@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 require 'features/accessibility/support/toggable_fieldsets_spec'
-require 'features/work_packages/timelines_page'
+require 'features/timelines/timelines_page'
 
 describe 'Timelines' do
   describe 'edit' do
     describe 'Toggable fieldset' do
       let(:project) { FactoryGirl.create(:project) }
       let(:current_user) { FactoryGirl.create (:admin) }
-      let(:timelines_page) { TimelinesPage.new }
+      let(:timelines_page) { TimelinesPage.new(project) }
 
       before do
         User.stub(:current).and_return current_user
@@ -43,43 +43,39 @@ describe 'Timelines' do
         timelines_page.visit_new
       end
 
-      describe 'Filter fieldset' do
-        let(:fieldset_name) { 'Filters' }
-
-        it_behaves_like 'expanded fieldset'
-
-        describe 'initial state', js: true do
-          include_context 'find legend with text'
-
-          it_behaves_like 'toggle state set collapsed'
-        end
-
-        describe 'after click', js: true do
-          include_context 'find legend with text'
-
-          before { legend_text.click }
-
-          it_behaves_like 'toggle state set expanded'
+      describe 'General settings fieldset' do
+        it_behaves_like 'toggable fieldset initially collapsed' do
+          let(:fieldset_name) { 'General Settings' }
         end
       end
 
-      describe 'Options fieldset' do
-        let(:fieldset_name) { 'Options' }
-
-        it_behaves_like 'collapsed fieldset'
-
-        describe 'initial state', js: true do
-          include_context 'find legend with text'
-
-          it_behaves_like 'toggle state set expanded'
+      describe 'Comparisons fieldset' do
+        it_behaves_like 'toggable fieldset initially expanded' do
+          let(:fieldset_name) { 'Comparisons' }
         end
+      end
 
-        describe 'after click', js: true do
-          include_context 'find legend with text'
+      describe 'Vertical work packages fieldset' do
+        it_behaves_like 'toggable fieldset initially expanded' do
+          let(:fieldset_name) { 'Vertical work packages' }
+        end
+      end
 
-          before { legend_text.click }
+      describe 'Filter work packages fieldset' do
+        it_behaves_like 'toggable fieldset initially expanded' do
+          let(:fieldset_name) { 'Filter work packages' }
+        end
+      end
 
-          it_behaves_like 'toggle state set collapsed'
+      describe 'Filter projects fieldset' do
+        it_behaves_like 'toggable fieldset initially expanded' do
+          let(:fieldset_name) { 'Filter projects' }
+        end
+      end
+
+      describe 'Grouping fieldset' do
+        it_behaves_like 'toggable fieldset initially expanded' do
+          let(:fieldset_name) { 'Grouping' }
         end
       end
     end
