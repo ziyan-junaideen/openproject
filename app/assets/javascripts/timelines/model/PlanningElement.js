@@ -171,6 +171,7 @@ Timeline.PlanningElement = {
       return this;
     },
     start: function() {
+      return null;
       var pet = this.getPlanningElementType();
       //if we have got a milestone w/o a start date but with an end date, just set them the same.
       if (this.start_date === undefined && this.due_date !== undefined && pet && pet.is_milestone) {
