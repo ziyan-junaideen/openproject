@@ -20,50 +20,68 @@ angular.module('openproject.timelines.helpers')
   };
 
   TimelineTableHelper = {
-    flattenTimelineTree: function(root, filterCallback, processNodeCallback){
-      var nodes = [];
+    convertTreeToRows: function(currentRoot, parentRow, filterCallback, processNodeCallback){
+      var row, rows = [];
 
-      angular.forEach(root.childNodes, function(node){
-        if (!filterCallback(node)) {
-          // add relevant information to row
-          if (processNodeCallback) processNodeCallback(node, root);
+      if (parentRow !== null && filterCallback(currentRoot)) return rows;
 
-          // add subtree to nodes
-          nodes.push(node);
-          nodes = nodes.concat(TimelineTableHelper.flattenTimelineTree(node, filterCallback, processNodeCallback));
-        }
+      row = processNodeCallback(currentRoot, parentRow);
+      rows.push(row);
+
+      angular.forEach(currentRoot.childNodes, function(node){
+        // add subtree to rows
+        rows = rows.concat(TimelineTableHelper.convertTreeToRows(node, row, filterCallback, processNodeCallback));
+
       });
 
-      return nodes;
+      return rows;
     },
 
-    addRowDataToNode: function(node, parent) {
+    getRowFromNode: function(node, parentRow) {
       // ancestors
-      if (parent) {
-        node.ancestors = [parent];
-        if(parent.ancestors) node.ancestors = parent.ancestors.concat(node.ancestors);
+
+      var ancestors = [];
+
+      if (parentRow) {
+        ancestors = [parentRow];
+        if(parentRow.ancestors) ancestors = parentRow.ancestors.concat(ancestors);
 
       }
 
-      // first level group
-      isNested = node.level >= 2;
-      if (node.payload.objectType === 'Project' && !isNested) {
-        node.firstLevelGroup        = node.payload.getFirstLevelGrouping();
-        node.firstLevelGroupingName = node.payload.getFirstLevelGroupingName();
+      // compose row
+
+      var row = {
+        text: node.text,
+        url: node.url,
+        object: node.payload,
+        ancestors: ancestors,
+        level: ancestors.length,
+        parent: parentRow,
+        hasChildren: !!node.childNodes && node.childNodes.length > 0,
+        expanded: node.expanded,
+
+        treeNode: node // tree node has to be remembered as it is used to look up the table element for vertical offset calculation
+      };
+
+      // grouping
+
+      isNested = row.level >= 2;
+      if (row.object.objectType === 'Project' && !isNested) {
+        row.firstLevelGroup        = row.object.getFirstLevelGrouping();
+        row.firstLevelGroupingName = row.object.getFirstLevelGroupingName();
       } else {
-        // inherit group from parent
-        node.firstLevelGroup = parent.firstLevelGroup;
+        // inherit group from parent row
+        row.firstLevelGroup = parentRow.firstLevelGroup;
+        row.firstLevelGroupingName = parentRow.firstLevelGroupingName;
       }
+
+      return row;
     },
 
     getTableRowsFromTimelineTree: function(tree, options) {
       nodeFilter = new NodeFilter(options);
 
-      // add relevant information to tree root serving as first row
-      TimelineTableHelper.addRowDataToNode(tree);
-
-      rows = TimelineTableHelper.flattenTimelineTree(tree, function(node) { return nodeFilter.nodeExcluded(node); }, TimelineTableHelper.addRowDataToNode);
-      rows.unshift(tree);
+      rows = TimelineTableHelper.convertTreeToRows(tree, null, function(node) { return nodeFilter.nodeExcluded(node); }, TimelineTableHelper.getRowFromNode);
 
       return rows;
     }

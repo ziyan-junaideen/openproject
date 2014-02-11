@@ -13,7 +13,6 @@ angular.module('openproject.workPackages.helpers')
           ancestors.pop();
         }
 
-
         // compose row
 
         var row = {

@@ -2,11 +2,11 @@ angular.module('openproject.uiComponents')
 
   .filter('ancestorsExpanded', function() {
     return function(ancestors) {
-      if(!ancestors) return true;
+      if(ancestors.length === 0) return true;
 
       var directAncestors;
 
-      if(ancestors.length > 1 && ancestors[0].payload.objectType === 'Project' && ancestors[1].payload.objectType === 'Project') {
+      if(ancestors.length > 1 && ancestors[0].object.objectType === 'Project' && ancestors[1].object.objectType === 'Project') {
         // discard expansion state of root if there's another project ancestor
         directAncestors = ancestors.slice(1);
       } else {
@@ -14,7 +14,7 @@ angular.module('openproject.uiComponents')
       }
 
       return directAncestors.map(function(ancestor){
-        return ancestor.expanded;
+        return ancestor.treeNode.expanded;
       }).reduce(function(a,b){
         return a && b;
       });
