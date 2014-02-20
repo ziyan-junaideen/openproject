@@ -28,6 +28,23 @@ angular.module('openproject.workPackages.controllers')
     });
   };
 
+  // TODO: Where should these methods be? Want them to be available for whatever to use but need the scope too:/
+  $scope.withLoading = function(callback, params){
+    startedLoading();
+    // TODO: We could also disable everything while we wait
+    return callback.apply(this, params).then(function(data){
+      finishedLoading();
+      return data;
+    });
+  };
+
+  function startedLoading() {
+    $scope.loading = true;
+  };
+
+  function finishedLoading() {
+    $scope.loading = false;
+  };
 
   $scope.setupWorkPackagesTable = function(json) {
     $scope.workPackageCountByGroup = json.work_package_count_by_group;
