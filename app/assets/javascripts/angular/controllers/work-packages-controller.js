@@ -31,7 +31,6 @@ angular.module('openproject.workPackages.controllers')
   // TODO: Where should these methods be? Want them to be available for whatever to use but need the scope too:/
   $scope.withLoading = function(callback, params){
     startedLoading();
-    // TODO: We could also disable everything while we wait
     return callback.apply(this, params).then(function(data){
       finishedLoading();
       return data;
@@ -39,11 +38,12 @@ angular.module('openproject.workPackages.controllers')
   };
 
   function startedLoading() {
-    $scope.loading = true;
+    // TODO: We could also disable/enable everything to prevent multiple updates (Or maybe we want this anyway?)
+    $scope.loading++;
   };
 
   function finishedLoading() {
-    $scope.loading = false;
+    $scope.loading--;
   };
 
   $scope.setupWorkPackagesTable = function(json) {
@@ -56,4 +56,5 @@ angular.module('openproject.workPackages.controllers')
   // Initially setup scope via gon
   $scope.setupQuery(gon);
   $scope.setupWorkPackagesTable(gon);
+  $scope.loading = 0;
 }]);
