@@ -38,7 +38,13 @@
     OpenProject::Application.routes.default_scope = root
   end
 
-  puts "\n[info] Prepending #{root} to all routes (including shallow ones) as configured through 'rails_relative_url_root'."
+  def color_string(color_code, string)
+    "\e[#{color_code}m#{string}\e[0m"
+  end
+
+  yellow = 33
+
+  puts color_string(yellow, "\n[info] Prepending #{root} to all routes (including shallow ones) and local redirects as configured through 'rails_relative_url_root'.")
 end
 
 module ActionDispatch
@@ -64,8 +70,26 @@ module ActionDispatch
           scope_without_subdirectory(*args, &block)
         end
 
-        alias_method_chain :scope, :subdirectory
+        alias_method_chain :scope, :subdirectory if OpenProject::Configuration["rails_relative_url_root"]
       end
+    end
+  end
+end
+
+module ActionDispatch
+  module Routing
+    class Redirect
+      def path_with_subdirectory(params, request)
+        root = OpenProject::Configuration["rails_relative_url_root"]
+        path = path_without_subdirectory(params, request)
+        if path =~ /^\// && !(path =~ /^\/#{root}/)
+          path = File.join(root, path)
+        end
+
+        path
+      end
+
+      alias_method_chain :path, :subdirectory if OpenProject::Configuration["rails_relative_url_root"]
     end
   end
 end
