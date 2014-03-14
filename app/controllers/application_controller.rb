@@ -452,7 +452,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404(options={})
-    render_error({:message => :notice_file_not_found, :status => 404}.merge(options))
+    render_error({:message => :notice_page_not_found, :status => 404}.merge(options))
     return false
   end
 
