@@ -208,8 +208,8 @@ class AggregatedMigrations < ActiveRecord::Migration
     20100705164950_change_changes_path_length_limit.rb
     20100714111651_prepare_journals_for_acts_as_journalized.rb
     20100714111652_update_journals_for_acts_as_journalized.rb
-    20100714111653_build_initial_journals_for_acts_as_journalized.rb
     20100714111654_add_changes_from_journal_details_for_acts_as_journalized.rb
+    20100714111655_build_initial_journals_for_acts_as_journalized.rb
     20100804112053_merge_wiki_versions_with_journals.rb
     20100819172912_enable_calendar_and_gantt_modules_where_appropriate.rb
     20101104182107_add_unique_index_on_members.rb
