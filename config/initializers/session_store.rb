@@ -29,8 +29,12 @@
 
 # Be sure to restart your server when you modify this file.
 
+session_options = {
+  :key => '_openproject_session'
+}
+
 if Rails.env.production?
-  OpenProject::Application.config.session_store :cache_store,  :key => '_openproject_session'
+  OpenProject::Application.config.session_store :cache_store,  session_options
 else
-  OpenProject::Application.config.session_store :cookie_store, :key => '_openproject_session'
+  OpenProject::Application.config.session_store :cookie_store, session_options
 end
