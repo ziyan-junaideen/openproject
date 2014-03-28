@@ -1,0 +1,26 @@
+production:
+  adapter:  postgresql
+  encoding: unicode
+  host: localhost
+  database: openproject_production
+  pool: 10
+  username: postgres
+  password: thMOziJu
+
+development:
+  adapter:  postgresql
+  encoding: unicode
+  host: localhost
+  database: openproject_development
+  pool: 10
+  username: postgres
+  password: thMOziJu
+
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: openproject_test
+  pool: 5
+  username: postgres
+  password: thMOziJu
